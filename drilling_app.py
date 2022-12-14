@@ -80,11 +80,13 @@ def data(dataframe):
     st.write(dataframe.head())
     st.header("**Statistical information**")
     st.write(dataframe.describe())
+
+
 def plot(dataframe):
     st.header("**Graphic 3D**")
-    x =  st.checkbox("Enter x axix",options=dataframe.columns)
-    y =  st.checkbox("Enter y axix",options=dataframe.columns)
-    z =  st.checkbox("Enter z axix",options=dataframe.columns)
+    x = st.selectbox("Enter x axix",options=dataframe.columns)
+    y = st.selectbox("Enter y axix",options=dataframe.columns)
+    z = st.selectbox("Enter z axix",options=dataframe.columns)
     fig = px.line_3d(dataframe, x, y, z)
     st.plotly_chart(fig)
 
