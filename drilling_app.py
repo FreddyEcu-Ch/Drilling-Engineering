@@ -97,3 +97,5 @@ if upload_file:
 if options == "Data":
     data(df)
 
+elif options == "3D Plots":
+    plot(df)
