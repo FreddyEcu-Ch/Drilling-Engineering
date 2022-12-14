@@ -90,3 +90,12 @@ if upload_file:
 if options == "Data":
     data(df)
 
+# 3D functions
+def data(dataframe):
+    st.header("**3D Graphics**")
+    x = st.checkbox("Enter x axix", options = dataframe.columns)
+    y = st.checkbox("Enter y axix", options = dataframe.columns)
+    z = st.checkbox("Enter z axix", options = dataframe.columns)
+    fig = px.line_3d(dataframe, x, y, z)
+    st.plotly_chart(fig)
+
