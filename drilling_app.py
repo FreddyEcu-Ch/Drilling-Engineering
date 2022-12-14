@@ -81,6 +81,13 @@ def data(dataframe):
     st.header("**Statistical information**")
     st.write(dataframe.describe())
 
+#FUNCION GRAFICA
+def plot(df):
+    x = st.checkbox("Eje x", options=df.columns)
+    y = st.checkbox("Eje x", options=df.columns)
+    z = st.checkbox("Eje x", options=df.columns)
+    fig=px.line_3d(df,x,y,z)
+    st.plotly_chart(fig)
 
 # Call dataframe
 if upload_file:
@@ -90,3 +97,5 @@ if upload_file:
 if options == "Data":
     data(df)
 
+elif options =="3D Plots":
+    plot(df)
