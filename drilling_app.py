@@ -90,3 +90,14 @@ if upload_file:
 if options == "Data":
     data(df)
 
+#Create a function to plot the 3D trajectories of directional wells and then show it onto the front-end on the section 3D Plots.
+
+def function_trajectories(df):
+    trajectories = px.line_3d((df), "dispns","dispew","neg_tvd","well")
+    trajectories.show()
+    st.header("**Trajectories of well**")
+    st.write(df.head())
+    st.checkbox("Ingrese ejex", options=df.columns)
+
+
+
