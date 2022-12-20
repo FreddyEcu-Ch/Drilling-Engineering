@@ -134,7 +134,7 @@ def well_J(data: Data, unit="ingles") -> Output:
         md_total = kop + (theta / bur) * 100 + tan_len
     else:
         md_total = kop + (theta / bur) * 30 + tan_len
-    return Output(
+    output = Output(
         R=R,
         Theta=theta,
         TVD_EOB=tvd_eob,
@@ -144,7 +144,7 @@ def well_J(data: Data, unit="ingles") -> Output:
         Md_total=md_total,
     )
     names = ["R", "theta", "tvd_EOB", "MD_EOB", "DH_EOB", "Length_tan", "MD_Total"]
-    for param, value in zip(names, trajectory_J):
+    for param, value in zip(names, output):
         if unit == "ingles":
             if param == "theta":
                 st.success(f"{param} -> {value:.3f} degrees")
