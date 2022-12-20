@@ -83,10 +83,10 @@ def data(dataframe):
 
 
 def plot(dataframe):
-    st.header("**Graphic 3D**")
-    x = st.selectbox("Enter x axix",options=dataframe.columns)
-    y = st.selectbox("Enter y axix",options=dataframe.columns)
-    z = st.selectbox("Enter z axix",options=dataframe.columns)
+    st.header("**Well Trajectory 3D**")
+    x = st.selectbox("Enter dispns",options=dataframe.columns)
+    y = st.selectbox("Enter dispew",options=dataframe.columns)
+    z = st.selectbox("Enter tvd",options=dataframe.columns)
     fig = px.line_3d(dataframe, x, y, z)
     st.plotly_chart(fig)
 
