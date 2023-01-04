@@ -276,3 +276,13 @@ elif options == "Basic Calculations":
         dor = st.number_input("Enter dor value")
         st.subheader("**Show results**")
         well_S(Data_S(tvd, kop, bur, dor, dh), units)
+
+    elif st.checkbox("H-well type"):
+        st.subheader("**Enter input values**")
+        kop = st.number_input("Enter kop value: ")
+        tvd = st.number_input("Enter tvd value: ")
+        dh = st.number_input("Enter dh value: ")
+        bur = st.number_input("Enter bur value")
+        dor = st.number_input("Enter dor value")
+        st.subheader("**Show results**")
+        well_H(Data_H(tvd, kop, bur, dor, dh), units)
