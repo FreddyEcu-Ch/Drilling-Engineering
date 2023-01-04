@@ -243,6 +243,61 @@ def well_S(data: Data_S, unit="ingles"):
             else:
                 st.success(f"{param} -> {value:.3f} m")
 
+# Function to calculate parameters of a Horizontal Well
+Data_H = namedtuple("Input", "TVD KOP BUR1 BUR2 DH")
+Output_H = namedtuple("Output", "R1 R2 Theta TVD_EOB1 Md_EOB1 Dh_EOB1 Tan_len Md_SOB2 Md_total")
+
+def well_H(data:Data_H, unit='ingles'):
+    tvd = data.TVD
+    kop = data.KOP
+    bur = data.BUR1
+    dor = data.BUR2
+    dh = data.DH
+    if unit == 'ingles':
+        R1 = 5729.58 / bur
+        R2 = 5729.58 / dor
+    else:
+        R1 = 1718.87 / bur
+        R2 = 1718.87 / dor
+    eg = tvd - kop- R2
+    eo = dh + R1
+    goe = degrees(atan(eg / eo))
+    og = sqrt(eg**2 + eo**2)
+    of = R1-R2
+    gof = degrees(acos(og / og))
+    theta = 180 - goe- gof
+    tvd_eob = kop + R1 * sin(radians(theta))
+    if unit == 'ingles':
+        md_eob = kop + (theta / bur) * 100
+    else:
+        md_eob = kop + (theta / bur) * 30
+    dh_eob = R1 - abs(R1 * cos(radians(theta)))
+    tan_len = sqrt(og**2 - of**2)
+    if unit == 'ingles':
+        md_sod = kop + (theta / bur) * 100 + tan_len
+    else:
+         md_sod = kop + (theta / bur) * 30 + tan_len
+
+    if unit == 'ingles':
+        md_total = kop + (theta / bur) * 100 + tan_len + (theta / dor) * 100
+    else:
+        md_total = kop + (theta / bur) * 30 + tan_len + (theta / dor) * 30
+
+    output_H = Output_H(R1=R1, R2=R2, Theta=theta, TVD_EOB1=tvd_eob, Md_EOB1=md_eob, Dh_EOB1=dh_eob, \
+                    Tan_len=tan_len,Md_SOB2=md_sod , Md_total=md_total)
+
+    names = ['R1', 'R2', 'theta', 'tvd_EOB1', 'Md_EOB1', 'Dh_EOB1', 'Lengh_tan', 'Md_SOD2', 'Md_Total']
+    for param, value in zip(names, output_H):
+        if unit == "ingles":
+            if param == "theta":
+                st.success(f"{param} -> {value:.3f} degrees")
+            else:
+                st.success(f"{param} -> {value:.3f} ft")
+        else:
+            if param == "theta":
+                st.success(f"{param} -> {value:.3f} degrees")
+            else:
+                st.success(f"{param} -> {value:.3f} m")
 
 # Call dataframe
 if upload_file:
@@ -276,3 +331,13 @@ elif options == "Basic Calculations":
         dor = st.number_input("Enter dor value")
         st.subheader("**Show results**")
         well_S(Data_S(tvd, kop, bur, dor, dh), units)
+
+    elif st.checkbox("H-well type"):
+        st.subheader("**Enter input values**")
+        kop = st.number_input("Enter kop value: ")
+        tvd = st.number_input("Enter tvd value: ")
+        dh = st.number_input("Enter dh value: ")
+        bur = st.number_input("Enter bur value")
+        dor = st.number_input("Enter dor value")
+        st.subheader("**Show results**")
+        well_H(Data_H(tvd, kop, bur, dor, dh), units)
